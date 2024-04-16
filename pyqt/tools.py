@@ -50,7 +50,6 @@ class MainWindow(QMainWindow):
         return self.w_qttab()
 
     def w_menus(self):
-        menu = QMenu()
         label = QLabel("PyQt5 Menus Bitches.")
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         tbar = QToolBar()
@@ -58,7 +57,9 @@ class MainWindow(QMainWindow):
         tbar.setMovable(False)
 
         def pro_lang(lang: str, a: QAction):
-            return lambda: (print("Language selected: %s" % lang.title()) or a.setDisabled(True))
+            return lambda: (
+                print("Language selected: %s" % lang.title()) or a.setDisabled(True)
+            )
 
         def browser_action(browser: str):
             return lambda: print("Browser clicked: %s" % browser.title())
