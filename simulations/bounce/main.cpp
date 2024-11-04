@@ -1,7 +1,8 @@
-#include "../olcpixeng/include/olcPixelGameEngine.h"
 #include "bounce.cpp"
 #include <chrono>
 #include <iostream>
+/*#include <olcPixelGameEngine.h>*/
+#include <olcPixelGameEngine.h>
 #include <thread>
 
 struct Bounce : public olc::PixelGameEngine {
@@ -12,7 +13,8 @@ struct Bounce : public olc::PixelGameEngine {
 
   Bounce() = delete;
   Bounce(simul::ball const &b, simul::rect const &r)
-      : simulator(), simulator_running(), ball(b), room(r) {}
+      : simulator(), simulator_running(), ball(b), room(r) {
+  }
 
   bool OnUserCreate() override {
     this->simulator_running = true;
@@ -23,20 +25,24 @@ struct Bounce : public olc::PixelGameEngine {
   }
 
   bool OnUserUpdate(float _) override {
-    for (int x = 0; x < this->ScreenWidth(); x++)
-      for (int y = 0; y < this->ScreenHeight(); y++)
-        this->Draw(x, y, olc::BLACK);
+    this->Clear(olc::BLACK);
     this->DrawRect(room.position.x, room.position.y, room.dim.x, room.dim.y,
                    olc::GREEN);
-    this->DrawCircle(ball.position.x, ball.position.y, ball.radius, olc::WHITE);
+    /*this->FillRect(ball.position.x - ball.radius, ball.position.y - ball.radius,*/
+                   /*ball.radius * 2, ball.radius * 2, olc::WHITE);*/
+    this->FillCircle(ball.position.x, ball.position.y, ball.radius, olc::WHITE);
     /*this->DrawLine(ball.position.x, ball.position.y,*/
     /*               ball.position.x + ball.direction.x * ball.radius * 2,*/
     /*               ball.position.y + ball.direction.y * ball.radius * 2,*/
     /*               olc::RED);*/
     /*this->DrawRect(ball.position.x, ball.position.y, ball.radius, ball.radius,
      * olc::WHITE);*/
-    std::cout << "\nFPS = " << this->GetFPS();
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 30));
+    /*std::cout << "\rFPS = " << this->GetFPS();*/
+    /*std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 30));*/
+    if (this->GetKey(olc::Key::Q).bPressed)
+      return false;
+    if(this->GetKey(olc::Key::F).bPressed)
+      std::cout << "FPS = " << this->GetFPS() << '\n';
     return true;
   }
 
@@ -48,10 +54,10 @@ struct Bounce : public olc::PixelGameEngine {
 };
 
 int main() {
-  const int H = 512, W = 512;
-  simul::ball ball{10, 15, {1, 2}, {H / 3.0, W / 3.0}};
-  simul::rect room{{6, 6}, {500, 250}};
+  const int H = 1024, W = 512;
+  simul::ball ball{50, 5, {6, 2}, {H / 3.0, W / 3.0}};
+  simul::rect room{{12, 12}, {H - 24, W - 24}};
   Bounce app{ball, room};
-  if (app.Construct(H, W, 1, 1))
+  if (app.Construct(H, W, 15, 15))
     app.Start();
 }

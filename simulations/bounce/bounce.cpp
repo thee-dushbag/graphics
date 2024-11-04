@@ -1,7 +1,5 @@
 #include <cmath>
-#include <cstddef>
 #include <ctime>
-#include <time.h>
 
 namespace simul {
 template <class T> struct v2 {
