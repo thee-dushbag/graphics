@@ -1,8 +1,7 @@
 #ifndef _COLLISIONS_SIMULATOR
 #define _COLLISIONS_SIMULATOR
 
-#include <chrono>
-#include <thread>
+#include <iostream>
 #include <sys/types.h>
 
 #include <array>
@@ -10,6 +9,8 @@
 #include <cstddef>
 #include <cstdint>
 #include <ctime>
+#include <thread>
+#include <unistd.h>
 
 namespace simul {
 
@@ -83,7 +84,7 @@ struct ball {
   inline void adjust(float lapse) { position += direction * velocity * lapse; }
 };
 
-enum : uint8_t { OFF = 0x00, RUNNING = 0x01 };
+enum : uint8_t { OFF = 0x00, RUNNING = 0x01, PAUSED = 0x2 };
 
 template <std::size_t ball_count> struct Simulator {
   std::array<ball, ball_count> balls;
@@ -104,6 +105,8 @@ template <std::size_t ball_count> struct Simulator {
       float period = (std::clock() - lapse) / 1e6;
       for (auto &ball : balls)
         ball.adjust(period);
+      while (this->settings & PAUSED)
+        std::this_thread::yield();
       lapse = std::clock();
       collisions();
     }

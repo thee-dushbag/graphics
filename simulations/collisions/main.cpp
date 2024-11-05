@@ -4,12 +4,33 @@
 #include <functional>
 #include <iostream>
 #include <thread>
+#include <unistd.h>
 
 struct Settings {
   simul::ball initial_ball_state;
   simul::v2i simulator_dim;
   simul::v2i simulator_off;
 };
+
+#ifndef BALLS
+#define BALLS 5
+#endif
+
+#ifndef VELOCITY
+#define VELOCITY 250
+#endif
+
+#ifndef RADIUS
+#define RADIUS 15
+#endif
+
+#ifndef SIMH
+#define SIMH 400
+#endif
+
+#ifndef SIMW
+#define SIMW SIMH
+#endif
 
 template <std::size_t N>
 struct CollisionSimulator : public olc::PixelGameEngine {
@@ -20,8 +41,8 @@ struct CollisionSimulator : public olc::PixelGameEngine {
   CollisionSimulator(Settings const &s)
       : worker(), simulator(), target(nullptr) {
     simulator.balls.fill(s.initial_ball_state);
-    simulator.dim     = s.simulator_dim;
-    simulator.offset  = s.simulator_off;
+    simulator.dim    = s.simulator_dim;
+    simulator.offset = s.simulator_off;
 
     if constexpr (N == 2 && false) {
       simulator.balls[0].direction = {1, 0.5};
@@ -64,12 +85,17 @@ struct CollisionSimulator : public olc::PixelGameEngine {
         std::cout << "balls[" << index << "] = velocity=" << ball.velocity
                   << ", direction=(" << ball.direction.x << ", "
                   << ball.direction.y << ", mag=" << ball.direction.mag()
-                  << "), " << '\n';
+                  << "), position=(" << ball.position.x << ", "
+                  << ball.position.y << ")" << '\n';
         index++;
       }
     }
-    if (GetKey(olc::Key::SPACE).bPressed)
-      std::this_thread::sleep_for(std::chrono::seconds(5));
+    if (GetKey(olc::Key::SPACE).bPressed) {
+      if (simulator.settings & simul::PAUSED)
+        simulator.unset(simul::PAUSED);
+      else
+        simulator.set(simul::PAUSED);
+    }
     if (GetMouse(olc::Mouse::LEFT).bPressed) {
       auto const &[mx, my] = GetMousePos();
       for (simul::ball &ball : simulator.balls) {
@@ -81,7 +107,8 @@ struct CollisionSimulator : public olc::PixelGameEngine {
         }
       }
     }
-    if (GetKey(olc::Key::C).bPressed) target = nullptr;
+    if (GetKey(olc::Key::C).bPressed)
+      target = nullptr;
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
     return not GetKey(olc::Key::Q).bPressed;
   }
@@ -94,15 +121,16 @@ struct CollisionSimulator : public olc::PixelGameEngine {
 };
 
 int main() {
-  int const height = 500, width = 500;
+  int const height = SIMH, width = SIMW;
   Settings settings{.initial_ball_state =
-                        simul::ball{.radius    = 30,
-                                    .velocity  = 500,
+                        simul::ball{.radius    = RADIUS,
+                                    .velocity  = VELOCITY,
                                     .position  = {height / 3.0, width / 3.0},
                                     .direction = {1, 2}},
                     .simulator_dim = {.x = width - 12, .y = height - 12},
                     .simulator_off = {.x = 6, .y = 6}};
 
-  CollisionSimulator<9> collisions_simul(settings);
-  if (collisions_simul.Construct(width, height, 5, 5)) collisions_simul.Start();
+  CollisionSimulator<BALLS> collisions_simul(settings);
+  if (collisions_simul.Construct(width, height, 5, 5))
+    collisions_simul.Start();
 }
