@@ -3,7 +3,7 @@ INCDIR=../include
 VPATH+=$(INCDIR)
 
 
-libolcPGE.so: olcPGE.cpp olcPixelGameEngine.h
+libolcPGE.so: olcPGE.cpp olcPixelGameEngine.hpp
 	$(CC) -shared -fPIC -o $@ olcPGE.cpp -I$(INCDIR)
 
 .PHONY+=clean

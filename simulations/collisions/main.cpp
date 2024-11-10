@@ -64,8 +64,10 @@ struct CollisionSimulator : public olc::PixelGameEngine {
 
   bool OnUserUpdate(float elapsed_time) override {
     Clear(olc::BLACK);
-    for (auto &ball : simulator.balls)
+    for (auto &ball : simulator.balls) {
+      DrawString(ball.position.x, ball.position.y, std::to_string((int)ball.velocity), olc::YELLOW);
       DrawCircle(ball.position.x, ball.position.y, ball.radius, olc::WHITE);
+    }
 
 #ifdef MESH
     for (auto b1 = simulator.balls.begin(); b1 != simulator.balls.end(); b1++)
@@ -75,8 +77,8 @@ struct CollisionSimulator : public olc::PixelGameEngine {
 #endif
 
     if (target)
-      FillCircle(target->position.x, target->position.y, target->radius,
-                 olc::WHITE);
+      DrawCircle(target->position.x, target->position.y, target->radius,
+                 olc::RED);
     DrawRect(simulator.offset.x, simulator.offset.y, simulator.dim.x,
              simulator.dim.y, olc::GREEN);
     if (GetKey(olc::Key::P).bPressed) {
@@ -107,6 +109,10 @@ struct CollisionSimulator : public olc::PixelGameEngine {
         }
       }
     }
+    if (GetKey(olc::Key::UP).bPressed && target)
+      target->velocity += 10;
+    if (GetKey(olc::Key::DOWN).bPressed && target)
+      target->velocity -= 10;
     if (GetKey(olc::Key::C).bPressed)
       target = nullptr;
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
