@@ -1,8 +1,6 @@
 #include "bounce.cpp"
-#include <chrono>
 #include <iostream>
-/*#include <olcPixelGameEngine.h>*/
-#include <olcPixelGameEngine.h>
+#include <olcPixelGameEngine.hpp>
 #include <thread>
 
 struct Bounce : public olc::PixelGameEngine {

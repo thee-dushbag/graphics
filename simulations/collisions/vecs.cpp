@@ -1,6 +1,4 @@
-// #include "simulator.hpp"
-#include "../../include/olcPixelGameEngine.h"
-#include <chrono>
+#include <olcPixelGameEngine.hpp>
 #include <thread>
 
 struct State {
@@ -20,7 +18,7 @@ class Directions : public olc::PixelGameEngine {
     auto scale = 90;
     auto w = ScreenWidth() / 3.0f, h = ScreenHeight() / 3.0f;
     olc::vf2d d = olc::vf2d{1, 0}.norm();
-    State s1 = {{w, h}, d}, s2{{w + 2 * scale, h + 2 * scale}, -d};
+    State s1    = {{w, h}, d}, s2{{w + 2 * scale, h + 2 * scale}, -d};
     DrawCircle(s1.position, scale, olc::WHITE);
     DrawCircle(s2.position, scale, olc::WHITE);
     DrawLine(s1.position, s2.position, olc::GREEN);

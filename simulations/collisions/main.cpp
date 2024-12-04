@@ -1,6 +1,5 @@
-#include "../../include/olcPixelGameEngine.h"
+#include <olcPixelGameEngine.hpp>
 #include "simulator.hpp"
-#include <chrono>
 #include <functional>
 #include <iostream>
 #include <thread>
@@ -65,7 +64,7 @@ struct CollisionSimulator : public olc::PixelGameEngine {
   bool OnUserUpdate(float elapsed_time) override {
     Clear(olc::BLACK);
     for (auto &ball : simulator.balls) {
-      DrawString(ball.position.x, ball.position.y, std::to_string((int)ball.velocity), olc::YELLOW);
+      /*DrawString(ball.position.x, ball.position.y, std::to_string((int)ball.velocity), olc::YELLOW);*/
       DrawCircle(ball.position.x, ball.position.y, ball.radius, olc::WHITE);
     }
 

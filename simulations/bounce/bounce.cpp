@@ -62,26 +62,26 @@ struct rect {
 
 void simulate(ball &ball, rect const &room, bool &running) {
   std::clock_t lapse = std::clock();
-  float const max_x = room.dim.x + room.position.x - ball.radius,
-              max_y = room.dim.y + room.position.y - ball.radius;
-  float const min_x = room.position.x + ball.radius,
-              min_y = room.position.y + ball.radius;
-  ball.direction = ball.direction.unit();
+  float const max_x  = room.dim.x + room.position.x - ball.radius,
+              max_y  = room.dim.y + room.position.y - ball.radius;
+  float const min_x  = room.position.x + ball.radius,
+              min_y  = room.position.y + ball.radius;
+  ball.direction     = ball.direction.unit();
   while (running) {
     ball.adjust((std::clock() - lapse) / 10000.0);
     // Collision detection and resolution
     if (ball.position.x < min_x) {
-      ball.position.x = min_x;
+      ball.position.x  = min_x;
       ball.direction.x = -ball.direction.x;
     } else if (ball.position.x > max_x) {
-      ball.position.x = max_x;
+      ball.position.x  = max_x;
       ball.direction.x = -ball.direction.x;
     }
     if (ball.position.y < min_y) {
-      ball.position.y = min_y;
+      ball.position.y  = min_y;
       ball.direction.y = -ball.direction.y;
     } else if (ball.position.y > max_y) {
-      ball.position.y = max_y;
+      ball.position.y  = max_y;
       ball.direction.y = -ball.direction.y;
     }
     lapse = std::clock();

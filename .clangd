@@ -1,2 +1,2 @@
 CompileFlags:
-  Add: [ -std=gnu++17 -I./include/ ]
+  Add: [ -std=c++17, -I/home/simon/Content/work/graphics/include/ ]

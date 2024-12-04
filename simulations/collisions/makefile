@@ -2,7 +2,7 @@
 CC=g++ -std=c++17
 ROOTDIR=../..
 INCDIR=$(ROOTDIR)/include
-LIBDIR=$(ROOTDIR)/lib 
+LIBDIR=$(ROOTDIR)/lib
 LIBS=-lm -lGL -lX11 -lpng16 -Wl,-rpath,$(LIBDIR) -L$(LIBDIR) -lolcPGE
 
 ifneq ($(BALLS),)

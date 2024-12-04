@@ -8,12 +8,8 @@ else ifeq ($(build),debug)
 endif
 
 all: basic random
-
 basic: basic.c
-	$(CC) -o $@ $^ $(CFLAGS)
-
 random: random.c
-	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY+=clean
 clean:

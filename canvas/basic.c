@@ -139,7 +139,7 @@ void draw_line(Canvas *canvas, int x1, int y1, int x2, int y2, Pixel color) {
   }
   float const m = (y2 - y1) / (float)(x2 - x1);
   for (int x = x1; x <= x2; x++) {
-    float y = m * (x - x1) + y1;
+    float const y = m * (x - x1) + y1;
     draw(&canvas->pixels[(int)floor(y) * canvas->width + x], color);
     draw(&canvas->pixels[(int)ceil(y) * canvas->width + x], color);
   }
@@ -280,12 +280,12 @@ void draw_oncanvas(Canvas *canvas, struct box *box) {
             GREEN);
   draw_circle(canvas, box->ball.position.x, box->ball.position.y,
               box->ball.radius, RED);
-  fill_triangle(canvas, box->ball.position.x - box->ball.radius,
-                box->ball.position.y + box->ball.radius,
-                box->ball.position.x - box->ball.radius,
-                box->ball.position.y - box->ball.radius,
-                box->ball.position.x + box->ball.radius,
-                box->ball.position.y + box->ball.radius, BLUE);
+  /*fill_triangle(canvas, box->ball.position.x - box->ball.radius,*/
+  /*              box->ball.position.y + box->ball.radius,*/
+  /*              box->ball.position.x - box->ball.radius,*/
+  /*              box->ball.position.y - box->ball.radius,*/
+  /*              box->ball.position.x + box->ball.radius,*/
+  /*              box->ball.position.y + box->ball.radius, BLUE);*/
   /*int const center = (int)box->ball.position.y * canvas->width +*/
   /*                      (int)box->ball.position.x;*/
   /*draw(&canvas->pixels[center], RED);*/
