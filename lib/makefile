@@ -1,10 +1,10 @@
-CC=g++ -O3 -std=c++17
+CXX=g++
 INCDIR=../include
 VPATH+=$(INCDIR)
-
+CXXFLAGS=-02
 
 libolcPGE.so: olcPGE.cpp olcPixelGameEngine.hpp
-	$(CC) -shared -fPIC -o $@ olcPGE.cpp -I$(INCDIR)
+	$(CXX) $(CXXFLAGS) -shared -fPIC -o $@ olcPGE.cpp -I$(INCDIR)
 
 .PHONY+=clean
 clean:

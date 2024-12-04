@@ -3895,7 +3895,7 @@ namespace olc
 		vConsoleSize = (vViewSize / olc::vi2d(8, 16)) - olc::vi2d(2, 4);
 
 		// If console has changed size, simply reset it
-		if (vConsoleSize.y != sConsoleLines.size())
+		if ((size_t)vConsoleSize.y != sConsoleLines.size())
 		{
 			vConsoleCursor = { 0,0 };
 			sConsoleLines.clear();
