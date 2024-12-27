@@ -2,35 +2,9 @@
 #include <float.h>
 #include <olcPixelGameEngine.hpp>
 #include <vector>
+#include "utils.hpp"
 
-template <class T> struct p3t {
-  p3t() : x(), y(), z() {}
-  p3t(T a) : x(a), y(a), z(a) {}
-  p3t(T x, T y, T z) : x(x), y(y), z(z) {}
-
-  inline T sum() const { return x + y + z; }
-  inline T mag() const { return std::sqrt(dot(*this)); }
-  inline T dot(p3t const &p) const { return (*this * p).sum(); }
-  inline p3t operator*(T t) const { return {t * x, t * y, t * z}; }
-
-  inline p3t operator-(p3t const &p) const {
-    return {x - p.x, y - p.y, z - p.z};
-  }
-  inline p3t operator+(p3t const &p) const {
-    return {x + p.x, y + p.y, z + p.z};
-  }
-  inline p3t operator*(p3t const &p) const {
-    return {x * p.x, y * p.y, z * p.z};
-  }
-  inline p3t operator/(p3t const &p) const {
-    return {x / p.x, y / p.y, z / p.z};
-  }
-  T x, y, z;
-};
-
-using p3i = p3t<int>;
-using p3f = p3t<float>;
-using p3  = p3f;
+using utils::p3;
 
 struct Sphere {
   p3 center;
@@ -56,7 +30,7 @@ struct Application : olc::PixelGameEngine {
     const int W = ScreenWidth(), H = ScreenHeight();
     const auto canvas2viewport = [&](int x, int y) -> p3 {
       return {x * scene.view_port.x / (float)W,
-              y * scene.view_port.y / (float)H, scene.view_port.z};
+              -y * scene.view_port.y / (float)H, scene.view_port.z};
     };
     const auto intersect_ray_sphere = [&](p3 const &camera, p3 const &direction,
                                           Sphere const &sphere) -> olc::vf2d {

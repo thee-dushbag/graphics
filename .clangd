@@ -1,2 +1,2 @@
 CompileFlags:
-  Add: [ -std=c++17, -I/home/simon/Content/work/graphics/include/ ]
+  Add: [ -std=c++23, -I/home/simon/Content/work/graphics/include/ ]
